@@ -1,4 +1,11 @@
 import './style.css';
+const imageBefore = '/images/before.png';
+const imageAfterVideo = '/images/step1.jpg';
+const imageSuccess = '/images/success.jpg';
+const imageLimitMorning = '/images/limitMorning.jpg';
+const imageLimitNoon = '/images/limitNoon.jpg';
+const imageDataSaved = '/images/datasaved.png';
+const imageMission = '/images/mission2.jpg';
 
 document.querySelector('#app').innerHTML = `
   <div class="page">
@@ -9,7 +16,7 @@ document.querySelector('#app').innerHTML = `
     <div class="right">
       <img 
         id="rightImage" 
-        src="https://raw.githubusercontent.com/peaworkplacesolution-oss/PEA_workplace_img/main/ดูคลิปจบ กรอก ID .png"
+        src="${imageBefore}"
       >
 
       <div id="formSection" style="display:none;">
@@ -41,9 +48,14 @@ window.onYouTubeIframeAPIReady = function () {
 };
 
 function onPlayerStateChange(event) {
+
   if (event.data === YT.PlayerState.ENDED) {
-    document.getElementById('formSection').style.display = 'block';
+
+    document.getElementById("rightImage").src = imageAfterVideo;
+
+    document.getElementById("formSection").style.display = "block";
   }
+
 }
 
 document.addEventListener('click', async function (e) {
@@ -72,13 +84,13 @@ document.addEventListener('click', async function (e) {
     const data = await res.json();
 
     if (data.status === 'success') {
-      rightImage.src = 'https://raw.githubusercontent.com/peaworkplacesolution-oss/PEA_workplace_img/main/บันทึกข้อมูลเรียบร้อย .png';
+      rightImage.src = imageDataSaved;
       document.getElementById('formSection').innerHTML = '';
     } else if (data.status === 'limitmorning') {
-      rightImage.src = 'https://raw.githubusercontent.com/peaworkplacesolution-oss/PEA_workplace_img/main/errornoon.jpg';
+      rightImage.src = imageLimitMorning;
       document.getElementById('formSection').innerHTML = '';
     } else if (data.status === 'limitnoon') {
-      rightImage.src = 'https://raw.githubusercontent.com/peaworkplacesolution-oss/PEA_workplace_img/main/errormorning.jpg';
+      rightImage.src = imageLimitNoon;
       document.getElementById('formSection').innerHTML = '';
     } else if (data.status === 'notfound') {
       alert('❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\\nโปรดติดต่อเจ้าหน้าที่');
