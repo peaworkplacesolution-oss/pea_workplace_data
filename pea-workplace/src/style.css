@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  gap: 20px;
+}
+
+.right {
+  width: 300px;
+  text-align: center;
+}
+
+img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+#inputArea p {
+  color: #222222;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+#empId {
+  padding: 10px 12px;
+  width: 90%;
+  background-color: #f1f3f5;
+  border-radius: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+#submitBtn {
+  margin-top: 12px;
+  padding: 10px 22px;
+  background-color: #a9c3df;
+  color: #222222;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#submitBtn:hover {
+  background-color: #93b4d5;
+}
