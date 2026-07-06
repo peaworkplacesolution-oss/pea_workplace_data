@@ -8,11 +8,11 @@ const supabase = createClient(
 
 export default async function handler(req, res) {
     try {
-        const authHeader = req.headers.authorization;
+        // const authHeader = req.headers.authorization;
 
-        if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-            return res.status(401).json({ status: 'unauthorized' });
-        }
+        // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+        //     return res.status(401).json({ status: 'unauthorized' });
+        // }    
 
         const auth = new google.auth.GoogleAuth({
             credentials: {
