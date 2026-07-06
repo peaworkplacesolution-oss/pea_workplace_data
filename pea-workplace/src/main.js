@@ -36,16 +36,30 @@ const script = document.createElement('script');
 script.src = 'https://www.youtube.com/iframe_api';
 document.body.appendChild(script);
 
-window.onYouTubeIframeAPIReady = function () {
-  new YT.Player('player', {
+window.onYouTubeIframeAPIReady = async function () {
+  const response = await fetch('/api/video');
+  const video = await response.json(); new YT.Player('player', {
     height: '472',
     width: '840',
-    videoId: 'bGjaELie1eM',
+    videoId: getYoutubeId(video.youtube_url),
     events: {
       onStateChange: onPlayerStateChange
     }
   });
 };
+
+function getYoutubeId(url) {
+
+  const reg =
+    /(?:youtu\.be\/|v=)([^?&]+)/;
+
+  const match = url.match(reg);
+
+  return match
+    ? match[1]
+    : '';
+
+}
 
 function onPlayerStateChange(event) {
 
