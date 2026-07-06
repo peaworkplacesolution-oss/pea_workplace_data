@@ -1,42 +1,103 @@
 import { createClient } from '@supabase/supabase-js';
-import { google } from 'googleapis';
+import crypto from 'crypto';
 
 const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+function base64Url(input) {
+    return Buffer.from(input)
+        .toString('base64')
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+}
+
+async function getGoogleAccessToken() {
+    const now = Math.floor(Date.now() / 1000);
+
+    const header = {
+        alg: 'RS256',
+        typ: 'JWT'
+    };
+
+    const payload = {
+        iss: process.env.GOOGLE_CLIENT_EMAIL,
+        scope: 'https://www.googleapis.com/auth/spreadsheets',
+        aud: 'https://oauth2.googleapis.com/token',
+        exp: now + 3600,
+        iat: now
+    };
+
+    const unsignedToken =
+        base64Url(JSON.stringify(header)) + '.' + base64Url(JSON.stringify(payload));
+
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
+
+    const signature = crypto.sign(
+        'RSA-SHA256',
+        Buffer.from(unsignedToken),
+        privateKey
+    );
+
+    const jwt = unsignedToken + '.' + base64Url(signature);
+
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            assertion: jwt
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(JSON.stringify(data));
+    }
+
+    return data.access_token;
+}
+
+async function sheetsRequest(path, method, body) {
+    const accessToken = await getGoogleAccessToken();
+
+    const response = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEET_ID}${path}`,
+        {
+            method,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: body ? JSON.stringify(body) : undefined
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(JSON.stringify(data));
+    }
+
+    return data;
+}
+
 export default async function handler(req, res) {
     try {
+        // เปิดใช้ทีหลัง ตอนทดสอบให้ปิดไว้ก่อน
         // const authHeader = req.headers.authorization;
-
         // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-        //     return res.status(401).json({ status: 'unauthorized' });
-        // }    
+        //   return res.status(401).json({ status: 'unauthorized' });
+        // }
 
-        const auth = new google.auth.GoogleAuth({
-            credentials: {
-                client_email: process.env.GOOGLE_CLIENT_EMAIL,
-                private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
-            },
-            scopes: ['https://www.googleapis.com/auth/spreadsheets']
-        });
-
-        const sheets = google.sheets({ version: 'v4', auth });
-
-        // =========================
-        // 1) Sync activity_logs
-        // =========================
         const { data: logsData, error: logsError } = await supabase
             .from('activity_logs')
-            .select(`
-        id,
-        emp_id,
-        activity_date,
-        period,
-        score,
-        detail
-      `)
+            .select('id, emp_id, activity_date, period, score, detail')
             .eq('synced_to_sheet', false)
             .order('id', { ascending: true })
             .limit(1000);
@@ -55,14 +116,13 @@ export default async function handler(req, res) {
                 row.detail
             ]);
 
-            await sheets.spreadsheets.values.append({
-                spreadsheetId: process.env.GOOGLE_SHEET_ID,
-                range: 'activity_logs!A:F',
-                valueInputOption: 'USER_ENTERED',
-                requestBody: {
+            await sheetsRequest(
+                `/values/${encodeURIComponent('activity_logs!A:F')}:append?valueInputOption=USER_ENTERED`,
+                'POST',
+                {
                     values: logValues
                 }
-            });
+            );
 
             const ids = logsData.map(row => row.id);
 
@@ -79,9 +139,6 @@ export default async function handler(req, res) {
             syncedLogs = logsData.length;
         }
 
-        // =========================
-        // 2) Sync employee_dashboard
-        // =========================
         const { data: dashboardData, error: dashboardError } = await supabase
             .from('employee_dashboard')
             .select('*')
@@ -107,20 +164,25 @@ export default async function handler(req, res) {
             row.rank_department || ''
         ]);
 
-        await sheets.spreadsheets.values.clear({
-            spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'employee_dashboard!A2:O'
-        });
+        await sheetsRequest(
+            `/values/${encodeURIComponent('employee_dashboard!A2:O')}:clear`,
+            'POST',
+            {}
+        );
 
-        if (dashboardValues.length > 0) {
-            await sheets.spreadsheets.values.update({
-                spreadsheetId: process.env.GOOGLE_SHEET_ID,
-                range: 'employee_dashboard!A2',
-                valueInputOption: 'USER_ENTERED',
-                requestBody: {
-                    values: dashboardValues
+        const chunkSize = 5000;
+
+        for (let i = 0; i < dashboardValues.length; i += chunkSize) {
+            const chunk = dashboardValues.slice(i, i + chunkSize);
+            const startRow = i + 2;
+
+            await sheetsRequest(
+                `/values/${encodeURIComponent(`employee_dashboard!A${startRow}`)}?valueInputOption=USER_ENTERED`,
+                'PUT',
+                {
+                    values: chunk
                 }
-            });
+            );
         }
 
         return res.json({
