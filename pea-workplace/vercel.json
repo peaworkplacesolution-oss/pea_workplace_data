@@ -1,8 +1,0 @@
-{
-    "crons": [
-        {
-            "path": "/api/syncsheet",
-            "schedule": "*/10 * * * *"
-        }
-    ]
-}
