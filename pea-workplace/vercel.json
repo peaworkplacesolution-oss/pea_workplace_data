@@ -1,7 +1,7 @@
 {
     "crons": [
         {
-            "path": "/api/syncSheet.js",
+            "path": "/api/sheetSynce",
             "schedule": "*/10 * * * *"
         }
     ]
