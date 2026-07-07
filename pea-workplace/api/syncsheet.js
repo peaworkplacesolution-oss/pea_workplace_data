@@ -199,9 +199,4 @@ export default async function handler(req, res) {
     }
 }
 
-export default async function handler(req, res) {
-    return res.json({
-        status: 'sync api found'
-    });
-}
 
