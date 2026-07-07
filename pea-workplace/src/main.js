@@ -32,25 +32,12 @@ document.querySelector('#app').innerHTML = `
   </div>
 `;
 
-// const script = document.createElement('script');
-// script.src = 'https://www.youtube.com/iframe_api';
-// document.body.appendChild(script);
-
-// window.onYouTubeIframeAPIReady = async function () {
-//   const response = await fetch('/api/video');
-//   const video = await response.json(); new YT.Player('player', {
-//     height: '472',
-//     width: '840',
-//     videoId: getYoutubeId(video.youtube_url),
-//     events: {
-//       onStateChange: onPlayerStateChange
-//     }
-//   });
-// };
-
+const script = document.createElement('script');
+script.src = 'https://www.youtube.com/iframe_api';
+document.body.appendChild(script);
 
 window.onYouTubeIframeAPIReady = async function () {
-  const response = await fetch('/api/sheetSynce');
+  const response = await fetch('/api/video');
   const video = await response.json(); new YT.Player('player', {
     height: '472',
     width: '840',
@@ -60,6 +47,8 @@ window.onYouTubeIframeAPIReady = async function () {
     }
   });
 };
+
+
 
 function getYoutubeId(url) {
 
