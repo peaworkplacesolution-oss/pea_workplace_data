@@ -57,6 +57,9 @@ export default async function handler(req, res) {
         emp_id: empId,
         activity_date: activityDate,
         period,
+        activity_type: 'video',
+        mission_id: null,
+        external_result_id: null,
         score: 1,
         detail: 'วิดีโอ'
       });
