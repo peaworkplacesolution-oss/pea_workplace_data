@@ -48,3 +48,47 @@ img {
 #submitBtn:hover {
   background-color: #93b4d5;
 }
+
+.mission-area {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.mission-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.mission-detail {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+.mission-score {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+#missionBtn {
+  padding: 11px 24px;
+  border: none;
+  border-radius: 10px;
+  background-color: #a9c3df;
+  color: #222;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#missionBtn:hover {
+  background-color: #93b4d5;
+}
+
+#missionBtn:active {
+  transform: scale(0.98);
+}
