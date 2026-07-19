@@ -23,7 +23,7 @@ document.querySelector('#app').innerHTML = `
 
       <div id="formSection" style="display:none;">
         <div id="inputArea">
-          <p>กรอกรหัสพนักงาน</p>
+          <p  id="empIdLabel">กรอกรหัสพนักงาน</p>
           <input
             id="empId"
             type="text"
@@ -235,12 +235,19 @@ document.addEventListener('click', async function (event) {
       // alert(
       //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
       // );
-      document.getElementById('rightImage').src = imageError;
-      inputArea.style.display = 'block';
-      loadingText.style.display = 'none';
-      empIdInput.value = '';
-      submitBtn.disabled = false;
-      return;
+       document.getElementById('rightImage').src = imageError;
+
+       const empIdLabel = document.getElementById('empIdLabel');
+
+        if (empIdLabel) {
+          empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
+        }
+
+        inputArea.style.display = 'block';
+        loadingText.style.display = 'none';
+        empIdInput.value = '';
+        submitBtn.disabled = false;
+        return;
     }
 
     alert('เกิดข้อผิดพลาด');
