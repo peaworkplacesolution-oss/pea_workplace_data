@@ -149,8 +149,8 @@ function showMission(missionData) {
 
   missionBtn.addEventListener('click', () => {
     if (!mission.mission_url) {
-      document.getElementById('rightImage').src = imageError;
-      // alert('ไม่พบลิงก์แบบทดสอบ');
+      
+      alert('ไม่พบลิงก์แบบทดสอบ');
       return;
     }
 
@@ -232,10 +232,10 @@ document.addEventListener('click', async function (event) {
     }
 
     if (data.status === 'notfound') {
-      alert(
-        '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
-      );
-
+      // alert(
+      //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
+      // );
+      document.getElementById('rightImage').src = imageError;
       inputArea.style.display = 'block';
       loadingText.style.display = 'none';
       empIdInput.value = '';
