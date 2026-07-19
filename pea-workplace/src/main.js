@@ -6,6 +6,7 @@ const imageLimitMorning = '/images/limitMorning.jpg';
 const imageLimitNoon = '/images/limitNoon.jpg';
 const imageDataSaved = '/images/datasaved.png';
 const imageMission = '/images/mission2.png';
+const imageError = '/images/Error.png';
 
 document.querySelector('#app').innerHTML = `
   <div class="page">
@@ -148,7 +149,8 @@ function showMission(missionData) {
 
   missionBtn.addEventListener('click', () => {
     if (!mission.mission_url) {
-      alert('ไม่พบลิงก์แบบทดสอบ');
+      document.getElementById('rightImage').src = imageError;
+      // alert('ไม่พบลิงก์แบบทดสอบ');
       return;
     }
 
