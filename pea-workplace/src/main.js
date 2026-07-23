@@ -1,11 +1,12 @@
 import './style.css';
 
 const imageBefore = '/images/before.png';
-const imageAfterVideo = '/images/step1.jpg';
+const imageAfterVideo = '/images/step1.png';
 const imageLimitMorning = '/images/limitMorning.jpg';
 const imageLimitNoon = '/images/limitNoon.jpg';
 const imageDataSaved = '/images/datasaved.png';
-const imageMission = '/images/mission2.jpg';
+const imageMission = '/images/mission2.png';
+const imageError = '/images/Error.png';
 
 document.querySelector('#app').innerHTML = `
   <div class="page">
@@ -22,7 +23,7 @@ document.querySelector('#app').innerHTML = `
 
       <div id="formSection" style="display:none;">
         <div id="inputArea">
-          <p>กรอกรหัสพนักงาน</p>
+          <p  id="empIdLabel">กรอกรหัสพนักงาน</p>
           <input
             id="empId"
             type="text"
@@ -104,9 +105,7 @@ async function loadMission() {
 
 function showDataSaved() {
   document.getElementById('rightImage').src = imageDataSaved;
-
   document.getElementById('formSection').innerHTML = '';
-
   showDashboardButton();
 }
 
@@ -140,6 +139,7 @@ function showDashboardButton() {
       );
     });
 }
+
 
 function showMission(missionData) {
   const rightImage = document.getElementById('rightImage');
@@ -177,13 +177,13 @@ function showMission(missionData) {
       </button>
     </div>
   `;
-
   showDashboardButton();
 
   const missionBtn = document.getElementById('missionBtn');
 
   missionBtn.addEventListener('click', () => {
     if (!mission.mission_url) {
+
       alert('ไม่พบลิงก์แบบทดสอบ');
       return;
     }
@@ -268,9 +268,16 @@ document.addEventListener('click', async function (event) {
     }
 
     if (data.status === 'notfound') {
-      alert(
-        '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดติดต่อเจ้าหน้าที่'
-      );
+      // alert(
+      //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
+      // );
+      document.getElementById('rightImage').src = imageError;
+
+      const empIdLabel = document.getElementById('empIdLabel');
+
+      if (empIdLabel) {
+        empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
+      }
 
       inputArea.style.display = 'block';
       loadingText.style.display = 'none';
@@ -292,3 +299,5 @@ document.addEventListener('click', async function (event) {
     submitBtn.disabled = false;
   }
 });
+
+
