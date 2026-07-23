@@ -1,12 +1,11 @@
 import './style.css';
 
 const imageBefore = '/images/before.png';
-const imageAfterVideo = '/images/step1.png';
+const imageAfterVideo = '/images/step1.jpg';
 const imageLimitMorning = '/images/limitMorning.jpg';
 const imageLimitNoon = '/images/limitNoon.jpg';
 const imageDataSaved = '/images/datasaved.png';
-const imageMission = '/images/mission2.png';
-const imageError = '/images/Error.png';
+const imageMission = '/images/mission2.jpg';
 
 document.querySelector('#app').innerHTML = `
   <div class="page">
@@ -23,7 +22,7 @@ document.querySelector('#app').innerHTML = `
 
       <div id="formSection" style="display:none;">
         <div id="inputArea">
-          <p  id="empIdLabel">กรอกรหัสพนักงาน</p>
+          <p>กรอกรหัสพนักงาน</p>
           <input
             id="empId"
             type="text"
@@ -105,7 +104,41 @@ async function loadMission() {
 
 function showDataSaved() {
   document.getElementById('rightImage').src = imageDataSaved;
+
   document.getElementById('formSection').innerHTML = '';
+
+  showDashboardButton();
+}
+
+function showDashboardButton() {
+  const formSection = document.getElementById('formSection');
+
+  formSection.insertAdjacentHTML(
+    'beforeend',
+    `
+      <div class="dashboard-area">
+        <button id="dashboardBtn" type="button">
+          ดู Dashboard ตรวจสอบผลการเข้าร่วมกิจกรรม
+        </button>
+
+        <p class="dashboard-note">
+          ผลบนแดชบอร์ดจะใช้เวลาอัปเดตประมาณ
+          <br>
+          15 - 30 นาที หลังกรอกข้อมูลสำเร็จ
+        </p>
+      </div>
+    `
+  );
+
+  document
+    .getElementById('dashboardBtn')
+    .addEventListener('click', () => {
+      window.open(
+        'https://datastudio.google.com/s/hzyR30hPixs',
+        '_blank',
+        'noopener,noreferrer'
+      );
+    });
 }
 
 function showMission(missionData) {
@@ -145,11 +178,12 @@ function showMission(missionData) {
     </div>
   `;
 
+  showDashboardButton();
+
   const missionBtn = document.getElementById('missionBtn');
 
   missionBtn.addEventListener('click', () => {
     if (!mission.mission_url) {
-      
       alert('ไม่พบลิงก์แบบทดสอบ');
       return;
     }
@@ -222,32 +256,27 @@ document.addEventListener('click', async function (event) {
     if (data.status === 'limitmorning') {
       rightImage.src = imageLimitMorning;
       document.getElementById('formSection').innerHTML = '';
+      showDashboardButton();
       return;
     }
 
     if (data.status === 'limitnoon') {
       rightImage.src = imageLimitNoon;
       document.getElementById('formSection').innerHTML = '';
+      showDashboardButton();
       return;
     }
 
     if (data.status === 'notfound') {
-      // alert(
-      //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
-      // );
-       document.getElementById('rightImage').src = imageError;
+      alert(
+        '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดติดต่อเจ้าหน้าที่'
+      );
 
-       const empIdLabel = document.getElementById('empIdLabel');
-
-        if (empIdLabel) {
-          empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
-        }
-
-        inputArea.style.display = 'block';
-        loadingText.style.display = 'none';
-        empIdInput.value = '';
-        submitBtn.disabled = false;
-        return;
+      inputArea.style.display = 'block';
+      loadingText.style.display = 'none';
+      empIdInput.value = '';
+      submitBtn.disabled = false;
+      return;
     }
 
     alert('เกิดข้อผิดพลาด');

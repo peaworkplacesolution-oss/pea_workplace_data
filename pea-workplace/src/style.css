@@ -92,3 +92,36 @@ img {
 #missionBtn:active {
   transform: scale(0.98);
 }
+
+.dashboard-area {
+  margin-top: 22px;
+  text-align: center;
+}
+
+#dashboardBtn {
+  padding: 11px 22px;
+  border: none;
+  border-radius: 10px;
+  background-color: #a9c3df;
+  color: #222222;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+#dashboardBtn:hover {
+  background-color: #93b4d5;
+}
+
+#dashboardBtn:active {
+  transform: scale(0.98);
+}
+
+.dashboard-note {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #666666;
+  line-height: 1.5;
+}
