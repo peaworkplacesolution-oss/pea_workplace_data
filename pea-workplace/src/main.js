@@ -170,6 +170,8 @@ function showMission(missionData) {
 
       <p class="mission-detail">
         ${escapeHtml(mission.detail || 'ตอบคำถามเพื่อรับคะแนนเพิ่ม')}
+        <br>
+        คะแนนจะถูกอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
       </p>
 
      
@@ -177,9 +179,9 @@ function showMission(missionData) {
         ไปตอบคำถามเลย!
       </button>
 
-       <p class="mission-detail" id="responseText" style="display:none;">
-        คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
-      </p>
+      //  <p class="mission-detail" id="responseText" style="display:none;">
+      //   คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
+      // </p>
     </div>
   `;
   showDashboardButton();
@@ -199,8 +201,8 @@ function showMission(missionData) {
       'noopener,noreferrer'
     );
 
-    missionBtn.remove();
-    document.getElementById('responseText').style.display = 'block';
+    // missionBtn.remove();
+    // document.getElementById('responseText').style.display = 'block';
 
   });
 }
