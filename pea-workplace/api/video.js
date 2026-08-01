@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
+// console.log('URL =', process.env.SUPABASE_URL);
+// console.log('KEY =', process.env.SUPABASE_SERVICE_ROLE_KEY ? 'FOUND' : 'NOT FOUND');
 const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
-
 const DEFAULT_VIDEO =
     "https://youtu.be/f8tc7Whev64?si=9QHTlcnSsDuX1MIi";
 

@@ -199,7 +199,7 @@ function showMission(missionData) {
       'noopener,noreferrer'
     );
 
-    document.getElementById('formSection').button.disabled = true;
+    missionBtn.remove();
     document.getElementById('responseText').style.display = 'block';
 
   });
