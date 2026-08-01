@@ -596,18 +596,18 @@ export default async function handler(req, res) {
         apiKey.substring(0, 20) + '...'
       );
       console.log('==============================');
-
+      console.log("APPS_SCRIPT_URL =", process.env.APPS_SCRIPT_URL);
       const xchoResponse = await fetch(
-        `https://xcho.pea.co.th/api/external/results/${encodeURIComponent(
-          surveyId
-        )}`,
+        process.env.APPS_SCRIPT_URL,
         {
-          method: 'GET',
+          method: 'POST',
           headers: {
-            'X-API-Key': apiKey,
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0'
-          }
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            surveyId,
+            apiKey
+          })
         }
       );
       console.log('HTTP STATUS =', xchoResponse.status);
