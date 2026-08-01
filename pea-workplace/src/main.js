@@ -164,17 +164,22 @@ function showMission(missionData) {
         ${escapeHtml(mission.mission_name || 'ภารกิจพิเศษ')}
       </p>
 
+       <p class="mission-score">
+        รับเพิ่ม ${Number(mission.score ?? 1)} คะแนน 
+      </p>
+
       <p class="mission-detail">
         ${escapeHtml(mission.detail || 'ตอบคำถามเพื่อรับคะแนนเพิ่ม')}
       </p>
 
-      <p class="mission-score">
-        รับเพิ่ม ${Number(mission.score ?? 1)} คะแนน
-      </p>
-
+     
       <button id="missionBtn" type="button">
         ไปตอบคำถามเลย!
       </button>
+
+       <p class="mission-detail" id="responseText" style="display:none;">
+        คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
+      </p>
     </div>
   `;
   showDashboardButton();
@@ -193,6 +198,10 @@ function showMission(missionData) {
       '_blank',
       'noopener,noreferrer'
     );
+
+    document.getElementById('formSection').button.disabled = true;
+    document.getElementById('responseText').style.display = 'block';
+
   });
 }
 
