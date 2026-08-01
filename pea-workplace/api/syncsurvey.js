@@ -360,6 +360,8 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+console.log("APPS_SCRIPT_URL =", process.env.APPS_SCRIPT_URL);
+console.log("typeof =", typeof process.env.APPS_SCRIPT_URL);
 
 function getBangkokDate() {
   return new Intl.DateTimeFormat('en-CA', {
