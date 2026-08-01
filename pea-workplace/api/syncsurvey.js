@@ -96,16 +96,16 @@ export default async function handler(req, res) {
 
 
   try {
-    const authHeader = req.headers.authorization;
+    // const authHeader = req.headers.authorization;
 
-    if (
-      !process.env.CRON_SECRET ||
-      authHeader !== `Bearer ${process.env.CRON_SECRET}`
-    ) {
-      return res.status(401).json({
-        status: 'unauthorized'
-      });
-    }
+    // if (
+    //   !process.env.CRON_SECRET ||
+    //   authHeader !== `Bearer ${process.env.CRON_SECRET}`
+    // ) {
+    //   return res.status(401).json({
+    //     status: 'unauthorized'
+    //   });
+    // }
 
     /*
       ถ้าส่ง period มา เช่นตอนทดสอบ ให้ใช้ค่าที่ส่งมา
