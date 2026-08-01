@@ -1,12 +1,24 @@
 {
-        "crons": [
-                {
-                        "path": "/api/syncSurvey",
-                        "schedule": "5 13 * * *"
-                },
-                {
-                        "path": "/api/syncSurvey",
-                        "schedule": "5 20 * * *"
-                }
-        ]
+  "crons": [
+    {
+      "path": "/api/syncSurvey",
+      "schedule": "5 4 * * *"
+    },
+    {
+      "path": "/api/syncSurvey",
+      "schedule": "5 6 * * *"
+    },
+    {
+      "path": "/api/syncSurvey",
+      "schedule": "5 8 * * *"
+    },
+    {
+      "path": "/api/syncSurvey",
+      "schedule": "5 9 * * *"
+    },
+    {
+      "path": "/api/syncSurvey",
+      "schedule": "5 13 * * *"
+    }
+  ]
 }
