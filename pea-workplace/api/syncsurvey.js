@@ -94,12 +94,13 @@ export default async function handler(req, res) {
     });
   }
 
+
   try {
     const authHeader = req.headers.authorization;
 
     if (
-      !process.env.SURVEY_SYNC_SECRET ||
-      authHeader !== `Bearer ${process.env.SURVEY_SYNC_SECRET}`
+      !process.env.CRON_SECRET ||
+      authHeader !== `Bearer ${process.env.CRON_SECRET}`
     ) {
       return res.status(401).json({
         status: 'unauthorized'
