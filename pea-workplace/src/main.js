@@ -179,9 +179,9 @@ function showMission(missionData) {
         ไปตอบคำถามเลย!
       </button>
 
-      //  <p class="mission-detail" id="responseText" style="display:none;">
-      //   คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
-      // </p>
+      <p class="mission-detail" id="responseText" style="display:none;">
+        คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
+       </p>
     </div>
   `;
   showDashboardButton();
