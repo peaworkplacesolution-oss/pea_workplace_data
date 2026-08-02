@@ -18,7 +18,7 @@
     },
     {
       "path": "/api/syncsurvey",
-      "schedule": "5 10 * * *"
+      "schedule": "5 11 * * *"
     },
     {
       "path": "/api/syncsurvey",
