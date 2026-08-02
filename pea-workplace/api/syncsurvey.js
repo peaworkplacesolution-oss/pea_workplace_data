@@ -85,7 +85,7 @@ function removeDuplicateEmployees(results) {
 
 export default async function handler(req, res) {
 
-  if (req.method !== 'POST') {
+  if (!['GET', 'POST'].includes(req.method)) {
     return res.status(405).json({
       status: 'method_not_allowed'
     });
@@ -106,7 +106,9 @@ export default async function handler(req, res) {
     }
 
     const requestedPeriod = String(
-      req.body?.period || getBangkokPeriod()
+      req.body?.period ||
+      req.query?.period ||
+      getBangkokPeriod()
     ).trim();
     if (!['morning', 'noon'].includes(requestedPeriod)) {
       return res.status(400).json({
@@ -224,12 +226,12 @@ export default async function handler(req, res) {
         continue;
       }
 
-     
+
       surveyId = String(surveyId).trim();
       apiKey = String(apiKey).trim();
 
-     
-      
+
+
       const xchoResponse = await fetch(
         process.env.APPS_SCRIPT_URL,
         {
