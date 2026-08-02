@@ -1,23 +1,27 @@
 {
   "crons": [
     {
-      "path": "/api/syncSurvey",
+      "path": "/api/syncsurvey",
       "schedule": "5 4 * * *"
     },
     {
-      "path": "/api/syncSurvey",
+      "path": "/api/syncsurvey",
       "schedule": "5 6 * * *"
     },
     {
-      "path": "/api/syncSurvey",
+      "path": "/api/syncsurvey",
       "schedule": "5 8 * * *"
     },
     {
-      "path": "/api/syncSurvey",
+      "path": "/api/syncsurvey",
       "schedule": "5 9 * * *"
     },
     {
-      "path": "/api/syncSurvey",
+      "path": "/api/syncsurvey",
+      "schedule": "5 10 * * *"
+    },
+    {
+      "path": "/api/syncsurvey",
       "schedule": "5 13 * * *"
     }
   ]
