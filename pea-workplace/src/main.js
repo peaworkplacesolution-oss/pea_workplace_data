@@ -272,6 +272,19 @@ document.addEventListener('click', async function (event) {
 
     if (data.status === 'success') {
       await showMissionOrSuccess();
+      const reportBtn = document.getElementById('reportBtn');
+
+      if (reportBtn) {
+        reportBtn.style.display = 'block';
+
+        reportBtn.onclick = () => {
+          window.open(
+            'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+            '_blank',
+            'noopener,noreferrer'
+          );
+        };
+      }
       return;
     }
 
@@ -279,6 +292,19 @@ document.addEventListener('click', async function (event) {
       rightImage.src = imageLimitMorning;
       document.getElementById('formSection').innerHTML = '';
       showDashboardButton();
+      const reportBtn = document.getElementById('reportBtn');
+
+      if (reportBtn) {
+        reportBtn.style.display = 'block';
+
+        reportBtn.onclick = () => {
+          window.open(
+            'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+            '_blank',
+            'noopener,noreferrer'
+          );
+        };
+      }
       return;
     }
 
@@ -286,6 +312,19 @@ document.addEventListener('click', async function (event) {
       rightImage.src = imageLimitNoon;
       document.getElementById('formSection').innerHTML = '';
       showDashboardButton();
+      const reportBtn = document.getElementById('reportBtn');
+
+      if (reportBtn) {
+        reportBtn.style.display = 'block';
+
+        reportBtn.onclick = () => {
+          window.open(
+            'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+            '_blank',
+            'noopener,noreferrer'
+          );
+        };
+      }
       return;
     }
 
