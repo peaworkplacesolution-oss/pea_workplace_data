@@ -42,7 +42,7 @@ document.querySelector('#app').innerHTML = `
           </button>
         </div>
 
-        <p id="loadingText" style="display:none;">
+        <p id="loadingText">
           กำลังบันทึกข้อมูล...
         </p>
       </div>
