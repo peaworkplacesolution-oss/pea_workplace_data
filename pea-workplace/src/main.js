@@ -33,6 +33,13 @@ document.querySelector('#app').innerHTML = `
           <button id="submitBtn" type="button">
             ส่งข้อมูล
           </button>
+          <button
+            id="reportBtn"
+            type="button"
+            style="display:none;"
+          >
+            แจ้งปัญหาการใช้งาน
+          </button>
         </div>
 
         <p id="loadingText" style="display:none;">
@@ -237,6 +244,11 @@ document.addEventListener('click', async function (event) {
   const submitBtn = document.getElementById('submitBtn');
   const rightImage = document.getElementById('rightImage');
 
+  const reportBtn = document.getElementById('reportBtn');
+
+  if (reportBtn) {
+    reportBtn.style.display = 'none';
+  }
   if (!empId) {
     alert('กรุณากรอก Employee ID');
     return;
@@ -285,7 +297,19 @@ document.addEventListener('click', async function (event) {
       document.getElementById('rightImage').src = imageError;
 
       const empIdLabel = document.getElementById('empIdLabel');
+      const reportBtn = document.getElementById('reportBtn');
 
+      if (reportBtn) {
+        reportBtn.style.display = 'block';
+
+        reportBtn.onclick = () => {
+          window.open(
+            'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+            '_blank',
+            'noopener,noreferrer'
+          );
+        };
+      }
       if (empIdLabel) {
         empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
       }
