@@ -289,47 +289,68 @@ document.addEventListener('click', async function (event) {
       return;
     }
 
-    if (data.status === 'notfound') {
-      // alert(
-      //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
-      // );
-      document.getElementById('rightImage').src = imageError;
+    // if (data.status === 'notfound') {
+    // alert(
+    //   '❌ ไม่พบข้อมูลรหัสพนักงานในระบบ\nโปรดถ่ายรูป Error นี้ไว้เพื่อเป็นหลักฐานไม่ให้ท่านสูญเสียคะแนนในครั้งนี้\nและติดต่อเจ้าหน้าที่เพื่ออัปเดตข้อมูลของท่าน'
+    // );
+    document.getElementById('rightImage').src = imageError;
 
-      const empIdLabel = document.getElementById('empIdLabel');
-      const reportBtn = document.getElementById('reportBtn');
+    const empIdLabel = document.getElementById('empIdLabel');
+    const reportBtn = document.getElementById('reportBtn');
 
-      if (reportBtn) {
-        reportBtn.style.display = 'block';
+    if (reportBtn) {
+      reportBtn.style.display = 'block';
 
-        reportBtn.onclick = () => {
-          window.open(
-            'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
-            '_blank',
-            'noopener,noreferrer'
-          );
-        };
-      }
-      if (empIdLabel) {
-        empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
-      }
-
-      inputArea.style.display = 'block';
-      loadingText.style.display = 'none';
-      empIdInput.value = '';
-      submitBtn.disabled = false;
-      return;
+      reportBtn.onclick = () => {
+        window.open(
+          'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+          '_blank',
+          'noopener,noreferrer'
+        );
+      };
+    }
+    if (empIdLabel) {
+      empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
     }
 
-    alert('เกิดข้อผิดพลาด');
-
     inputArea.style.display = 'block';
     loadingText.style.display = 'none';
+    empIdInput.value = '';
     submitBtn.disabled = false;
+    return;
+    // }
+
+
+
+    // inputArea.style.display = 'block';
+    // loadingText.style.display = 'none';
+    // submitBtn.disabled = false;
   } catch (error) {
-    alert(`❌ ERROR: ${error.message}`);
+    // alert(`❌ ERROR: ${error.message}`);
+
+    document.getElementById('rightImage').src = imageError;
+
+    const empIdLabel = document.getElementById('empIdLabel');
+    const reportBtn = document.getElementById('reportBtn');
+
+    if (reportBtn) {
+      reportBtn.style.display = 'block';
+
+      reportBtn.onclick = () => {
+        window.open(
+          'https://sites.google.com/view/peaworkplacesolutionpeacoth/%E0%B8%95%E0%B8%94%E0%B8%95%E0%B8%AD%E0%B9%80%E0%B8%A3%E0%B8%B2?authuser=0',
+          '_blank',
+          'noopener,noreferrer'
+        );
+      };
+    }
+    if (empIdLabel) {
+      empIdLabel.textContent = 'ลองกรอกรหัสอื่น';
+    }
 
     inputArea.style.display = 'block';
     loadingText.style.display = 'none';
+    empIdInput.value = '';
     submitBtn.disabled = false;
   }
 });
