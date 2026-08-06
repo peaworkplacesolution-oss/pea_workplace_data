@@ -36,13 +36,12 @@ document.querySelector('#app').innerHTML = `
           <button
             id="reportBtn"
             type="button"
-            style="display:none;"
           >
             แจ้งปัญหาการใช้งาน
           </button>
         </div>
 
-        <p id="loadingText">
+        <p id="loadingText" style="display:none;">
           กำลังบันทึกข้อมูล...
         </p>
       </div>
