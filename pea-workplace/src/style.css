@@ -18,6 +18,8 @@ img {
   border-radius: 12px;
 }
 
+
+
 #inputArea p {
   color: #222222;
   font-weight: 600;
@@ -34,7 +36,8 @@ img {
   border: 1px solid #ccc;
 }
 
-#submitBtn {
+#submitBtn,
+#reportBtn {
   margin-top: 12px;
   padding: 10px 22px;
   background-color: #a9c3df;
@@ -42,13 +45,25 @@ img {
   border: none;
   border-radius: 10px;
   font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-#submitBtn:hover {
+#submitBtn:hover,
+#reportBtn:hover {
   background-color: #93b4d5;
 }
 
+#submitBtn:active,
+#reportBtn:active {
+  transform: scale(0.98);
+}
+
+#reportBtn {
+  display: none;
+}
 .mission-area {
   margin-top: 18px;
   text-align: center;
