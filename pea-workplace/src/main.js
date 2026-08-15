@@ -7,6 +7,7 @@ const imageLimitNoon = '/images/limitNoon.jpg';
 const imageDataSaved = '/images/datasaved.png';
 const imageMission = '/images/mission2.png';
 const imageError = '/images/Error.png';
+const imageStopHoliday = '/images/stopHoliday.png';
 
 document.querySelector('#app').innerHTML = `
   <div class="page">
@@ -63,9 +64,20 @@ window.onYouTubeIframeAPIReady = async function () {
 
     const video = await response.json();
     const videoId = getYoutubeId(video.youtube_url);
+    const videoType = video.youtube_type;
 
     if (!videoId) {
       throw new Error('ไม่พบ YouTube Video ID');
+    }
+
+    if (videoType === 'holiday') {
+      new YT.Player('player', {
+        height: '472',
+        width: '840',
+        videoId
+      });
+      document.getElementById('rightImage').src = imageStopHoliday;
+      return;
     }
 
     new YT.Player('player', {

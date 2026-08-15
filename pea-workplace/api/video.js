@@ -39,7 +39,10 @@ export default async function handler(req, res) {
     res.json({
         youtube_url: data
             ? data.youtube_url
-            : DEFAULT_VIDEO
+            : DEFAULT_VIDEO,
+        youtube_type: data
+            ? "normal"
+            : "holiday",
     });
 
 }
