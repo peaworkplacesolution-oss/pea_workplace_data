@@ -36,13 +36,26 @@ export default async function handler(req, res) {
         .eq('period', period)
         .single();
 
-    res.json({
-        youtube_url: data
-            ? data.youtube_url
-            : DEFAULT_VIDEO,
-        youtube_type: data
-            ? "normal"
-            : "holiday",
-    });
+
+    dataResponse = {
+        youtube_url: data.youtube_url,
+        youtube_type: "normal"
+    };
+    if (!data) {
+        dataResponse = {
+            youtube_url: DEFAULT_VIDEO,
+            youtube_type: "holiday",
+        };
+    }
+
+    res.json(dataResponse);
+    // res.json({
+    //     youtube_url: data
+    //         ? data.youtube_url
+    //         : DEFAULT_VIDEO,
+    //     youtube_type: data
+    //         ? "normal"
+    //         : "holiday",
+    // });
 
 }
