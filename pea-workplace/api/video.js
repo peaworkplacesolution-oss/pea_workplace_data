@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         .single();
 
 
-    dataResponse = {
+    let dataResponse = {
         youtube_url: data.youtube_url,
         youtube_type: "normal"
     };
