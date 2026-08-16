@@ -75,12 +75,13 @@ function removeDuplicateEmployees(results) {
     }
   }
 
-  return Array
-    .from(uniqueResults.entries())
-    .map(([empId, item]) => ({
-      emp_id: empId,
-      external_result_id: String(item.id)
-    }));
+return Array
+  .from(uniqueResults.entries())
+  .map(([empId, item]) => ({
+    emp_id: empId,
+    external_result_id: String(item.id),
+    correct_answers: Number(item.correct_answers ?? 0)
+  }));
 }
 
 export default async function handler(req, res) {
