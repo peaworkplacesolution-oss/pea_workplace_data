@@ -75,13 +75,13 @@ function removeDuplicateEmployees(results) {
     }
   }
 
-return Array
-  .from(uniqueResults.entries())
-  .map(([empId, item]) => ({
-    emp_id: empId,
-    external_result_id: String(item.id),
-    correct_answers: Number(item.correct_answers ?? 0)
-  }));
+  return Array
+    .from(uniqueResults.entries())
+    .map(([empId, item]) => ({
+      emp_id: empId,
+      external_result_id: String(item.id),
+      correct_answers: Number(item.correct_answers ?? 0)
+    }));
 }
 
 export default async function handler(req, res) {
@@ -95,16 +95,16 @@ export default async function handler(req, res) {
   try {
 
 
-    // const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
-    // if (
-    //   !process.env.CRON_SECRET ||
-    //   authHeader !== `Bearer ${process.env.CRON_SECRET}`
-    // ) {
-    //   return res.status(401).json({
-    //     status: 'unauthorized'
-    //   });
-    // }
+    if (
+      !process.env.CRON_SECRET ||
+      authHeader !== `Bearer ${process.env.CRON_SECRET}`
+    ) {
+      return res.status(401).json({
+        status: 'unauthorized'
+      });
+    }
 
     const requestedPeriod = String(
       req.body?.period ||
