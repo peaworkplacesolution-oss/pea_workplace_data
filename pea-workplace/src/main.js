@@ -187,7 +187,7 @@ function showMission(missionData) {
       </p>
 
       <p class="mission-detail">
-        คะแนนจะถูกอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง รับ 20 คะแนนได้ครั้งเดียวเท่านั้น
+        คะแนนจะถูกอัปเดตภายในวันนี้ หลังตรวจสอบคะแนนแล้ว โดยยึดถือผลจากแบบทดสอบที่ทำได้ครั้งแรกเป็นหลัก
          <br>
          ${escapeHtml(mission.detail || 'ตอบคำถามเพื่อรับคะแนนเพิ่ม')}
       </p>
@@ -197,9 +197,6 @@ function showMission(missionData) {
         ไปตอบคำถามเลย!
       </button>
 
-      <p class="mission-detail" id="responseText" style="display:none;">
-        คะแนนของคุณจะอัปเดตภายในวันนี้ หลังตรวจสอบแล้วว่าได้มีการทำแบบทดสอบจนเสร็จสิ้นแล้วจริง 
-       </p>
     </div>
   `;
   showDashboardButton();
