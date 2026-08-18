@@ -5,7 +5,7 @@ const imageAfterVideo = '/images/step1.png';
 const imageLimitMorning = '/images/limitMorning.jpg';
 const imageLimitNoon = '/images/limitNoon.jpg';
 const imageDataSaved = '/images/datasaved.png';
-const imageMission = '/images/mission2.png';
+const imageMission = '/images/mission3.png';
 const imageError = '/images/Error.png';
 const imageStopHoliday = '/images/stopHoliday.png';
 
