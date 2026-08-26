@@ -53,34 +53,7 @@ function getBangkokPeriodFromTimestamp(timestamp) {
   return hour < 14 ? 'morning' : 'noon';
 }
 
-const requestedPeriod = String(
-  req.body?.period ||
-  req.query?.period ||
-  getBangkokPeriod()
-).trim();
 
-if (!['morning', 'noon'].includes(requestedPeriod)) {
-  return res.status(400).json({
-    status: 'invalid_period'
-  });
-}
-
-const activityDate = String(
-  req.body?.date ||
-  req.query?.date ||
-  getBangkokDate()
-).trim();
-
-const forceUpdate =
-  req.body?.force_update === true ||
-  req.query?.force_update === 'true';
-
-if (!/^\d{4}-\d{2}-\d{2}$/.test(activityDate)) {
-  return res.status(400).json({
-    status: 'invalid_date',
-    message: 'date ต้องเป็น YYYY-MM-DD'
-  });
-}
 
 function isDateWithinMission(activityDate, startDate, endDate) {
   if (startDate && activityDate < startDate) return false;
@@ -146,6 +119,37 @@ export default async function handler(req, res) {
   }
 
   try {
+
+    const requestedPeriod = String(
+      req.body?.period ||
+      req.query?.period ||
+      getBangkokPeriod()
+    ).trim();
+
+    if (!['morning', 'noon'].includes(requestedPeriod)) {
+      return res.status(400).json({
+        status: 'invalid_period'
+      });
+    }
+
+    const activityDate = String(
+      req.body?.date ||
+      req.query?.date ||
+      getBangkokDate()
+    ).trim();
+
+    const forceUpdate =
+      req.body?.force_update === true ||
+      req.query?.force_update === 'true';
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(activityDate)) {
+      return res.status(400).json({
+        status: 'invalid_date',
+        message: 'date ต้องเป็น YYYY-MM-DD'
+      });
+    }
+
+    
 
 
     // const authHeader = req.headers.authorization;
