@@ -28,10 +28,63 @@ function getBangkokPeriod() {
 
   return hour < 14 ? 'morning' : 'noon';
 }
+function getBangkokDateFromTimestamp(timestamp) {
+  if (!timestamp) return '';
 
-function isDateWithinMission(today, startDate, endDate) {
-  if (startDate && today < startDate) return false;
-  if (endDate && today > endDate) return false;
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Bangkok',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date(timestamp));
+}
+
+function getBangkokPeriodFromTimestamp(timestamp) {
+  if (!timestamp) return '';
+
+  const hour = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Bangkok',
+      hour: '2-digit',
+      hour12: false
+    }).format(new Date(timestamp))
+  );
+
+  return hour < 14 ? 'morning' : 'noon';
+}
+
+const requestedPeriod = String(
+  req.body?.period ||
+  req.query?.period ||
+  getBangkokPeriod()
+).trim();
+
+if (!['morning', 'noon'].includes(requestedPeriod)) {
+  return res.status(400).json({
+    status: 'invalid_period'
+  });
+}
+
+const activityDate = String(
+  req.body?.date ||
+  req.query?.date ||
+  getBangkokDate()
+).trim();
+
+const forceUpdate =
+  req.body?.force_update === true ||
+  req.query?.force_update === 'true';
+
+if (!/^\d{4}-\d{2}-\d{2}$/.test(activityDate)) {
+  return res.status(400).json({
+    status: 'invalid_date',
+    message: 'date ต้องเป็น YYYY-MM-DD'
+  });
+}
+
+function isDateWithinMission(activityDate, startDate, endDate) {
+  if (startDate && activityDate < startDate) return false;
+  if (endDate && activityDate > endDate) return false;
 
   return true;
 }
@@ -106,18 +159,6 @@ export default async function handler(req, res) {
     //   });
     // }
 
-    const requestedPeriod = String(
-      req.body?.period ||
-      req.query?.period ||
-      getBangkokPeriod()
-    ).trim();
-    if (!['morning', 'noon'].includes(requestedPeriod)) {
-      return res.status(400).json({
-        status: 'invalid_period'
-      });
-    }
-
-    const today = getBangkokDate();
 
     const { data: missions, error: missionError } = await supabase
       .from('mission_config')
@@ -142,13 +183,13 @@ export default async function handler(req, res) {
 
     const activeMissions = (missions || []).filter((mission) =>
       isDateWithinMission(
-        today,
+        activityDate,
         mission.start_date,
         mission.end_date
       )
     );
 
-    // console.log('TODAY =', today);
+    // console.log(  activityDate =',  activityDate);
     // console.log('REQUESTED PERIOD =', requestedPeriod);
     // console.log('MISSIONS =', missions);
     // console.log('ACTIVE MISSIONS =', activeMissions);
@@ -156,7 +197,7 @@ export default async function handler(req, res) {
     if (activeMissions.length === 0) {
       return res.json({
         status: 'no_active_mission',
-        date: today,
+        date: activityDate,
         period: requestedPeriod
       });
     }
@@ -180,7 +221,7 @@ export default async function handler(req, res) {
             api_key
           `)
           .eq('mission_id', mission.mission_id)
-          .eq('show_date', today)
+          .eq('show_date', activityDate)
           .eq('period', requestedPeriod)
           .maybeSingle();
 
@@ -198,7 +239,7 @@ export default async function handler(req, res) {
           summaries.push({
             mission_id: mission.mission_id,
             status: 'no_plan_for_period',
-            date: today,
+            date: activityDate,
             period: requestedPeriod
           });
 
@@ -303,10 +344,22 @@ export default async function handler(req, res) {
       const completedResults = rawResults.filter((item) => {
         const empId = getEmployeeId(item);
 
+        const resultTimestamp =
+          item.created_at ||
+          item.update_at;
+
+        const resultDate =
+          getBangkokDateFromTimestamp(resultTimestamp);
+
+        const resultPeriod =
+          getBangkokPeriodFromTimestamp(resultTimestamp);
+
         return (
           empId !== '' &&
           item.is_deleted !== true &&
-          Number(item.status) === 31
+          Number(item.status) === 31 &&
+          resultDate === activityDate &&
+          resultPeriod === requestedPeriod
         );
       });
 
@@ -339,10 +392,11 @@ export default async function handler(req, res) {
           input_results: resultsForDatabase,
           input_mission_id: mission.mission_id,
           input_activity_type: mission.mission_type,
-          input_activity_date: today,
+          input_activity_date: activityDate,
           input_period: requestedPeriod,
           input_score: mission.score ?? 1,
-          input_detail: mission.detail
+          input_detail: mission.detail,
+          input_force_update: forceUpdate
         });
       console.log('RPC RESULT =', insertedCount);
       console.log('RPC ERROR =', rpcError);
@@ -362,7 +416,7 @@ export default async function handler(req, res) {
         mission_name: mission.mission_name,
         mission_type: mission.mission_type,
         survey_id: surveyId,
-        date: today,
+        date: activityDate,
         period: requestedPeriod,
         status: 'success',
         fetched: rawResults.length,
@@ -371,13 +425,14 @@ export default async function handler(req, res) {
       });
     }
 
+
     return res.json({
       status: 'success',
-      date: today,
+      date: activityDate,
       period: requestedPeriod,
+      force_update: forceUpdate,
       missions: summaries
     });
-
   } catch (error) {
 
     console.error('==============================');
