@@ -96,23 +96,20 @@ function removeDuplicateEmployees(results) {
       continue;
     }
 
-
+    // ถ้าตอบหลายครั้ง เอาครั้งที่เก่าที่สุด
     if (getCreatedTime(item) < getCreatedTime(existing)) {
       uniqueResults.set(empId, item);
     }
   }
 
   return Array
-    .from(uniqueResults.entries())
-    .map(([empId, item]) => ({
-      emp_id: empId,
+    .from(uniqueResults.values())
+    .map((item) => ({
+      emp_id: getEmployeeId(item),
       external_result_id: String(item.id),
-
-
       correct_answers: Number(item.correct_answers ?? 0)
     }));
 }
-
 export default async function handler(req, res) {
 
   if (!['GET', 'POST'].includes(req.method)) {
@@ -347,26 +344,13 @@ export default async function handler(req, res) {
         ? xchoData.data
         : [];
       console.log('TOTAL RESULT =', rawResults.length);
-
       const completedResults = rawResults.filter((item) => {
         const empId = getEmployeeId(item);
-
-        const resultTimestamp =
-          item.created_at ||
-          item.update_at;
-
-        const resultDate =
-          getBangkokDateFromTimestamp(resultTimestamp);
-
-        const resultPeriod =
-          getBangkokPeriodFromTimestamp(resultTimestamp);
 
         return (
           empId !== '' &&
           item.is_deleted !== true &&
-          Number(item.status) === 31 &&
-          resultDate === activityDate &&
-          resultPeriod === requestedPeriod
+          Number(item.status) === 31
         );
       });
 
