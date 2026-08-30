@@ -96,6 +96,7 @@ function removeDuplicateEmployees(results) {
       continue;
     }
 
+
     if (getCreatedTime(item) < getCreatedTime(existing)) {
       uniqueResults.set(empId, item);
     }
@@ -106,6 +107,8 @@ function removeDuplicateEmployees(results) {
     .map(([empId, item]) => ({
       emp_id: empId,
       external_result_id: String(item.id),
+
+
       correct_answers: Number(item.correct_answers ?? 0)
     }));
 }
@@ -149,7 +152,7 @@ export default async function handler(req, res) {
       });
     }
 
-    
+
 
 
     // const authHeader = req.headers.authorization;
@@ -396,7 +399,7 @@ export default async function handler(req, res) {
           input_results: resultsForDatabase,
           input_mission_id: mission.mission_id,
           input_activity_type: mission.mission_type,
-          input_activity_date: activityDate,
+          input_activity_date: activityDate, // ✅ แก้ตรงนี้
           input_period: requestedPeriod,
           input_score: mission.score ?? 1,
           input_detail: mission.detail,
